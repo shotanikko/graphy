@@ -36,7 +36,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
         sx={{ 
           display: 'flex', 
           alignItems: 'center',
-          minHeight: 80, // ヘッダーの高さを固定
+          minHeight: { xs: 60, sm: 80 }, // モバイルでは高さを小さく
           py: 1
         }}
       >
@@ -47,7 +47,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             gap: 1,
             cursor: 'pointer',
             ml: 2,
-            width: '200px'
+            width: { xs: '150px', sm: '200px' } // モバイルでは幅を小さく
           }}
           onClick={() => navigate('/')}
         >
@@ -56,23 +56,28 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             sx={{ 
               fontFamily: '"M PLUS Rounded 1c", "Segoe UI", sans-serif',
               fontWeight: 700,
-              fontSize: '2rem',
+              fontSize: { xs: '1.5rem', sm: '2rem' }, // モバイルではフォントサイズを小さく
               letterSpacing: '0.1em'
             }} 
           >
             Graphy
           </Typography>
-          <TrendingUpIcon sx={{ fontSize: '2.5rem' }} />
+          <TrendingUpIcon sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }} />
         </Box>
         {isHome && (
-          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ 
+            flex: 1, 
+            display: 'flex', 
+            justifyContent: 'center',
+            px: { xs: 1, sm: 2 } // モバイルではパディングを小さく
+          }}>
             <TextField
               size="small"
               placeholder="プロジェクトを検索"
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
               sx={{
-                width: '300px',
+                width: { xs: '200px', sm: '300px' }, // モバイルでは幅を小さく
                 backgroundColor: 'white',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Card, CardContent, Typography, IconButton, Stack, Tooltip } from '@mui/material';
+import { Box, Card, CardContent, Typography, IconButton, Stack, Tooltip, useMediaQuery } from '@mui/material';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,6 +14,7 @@ interface HomeProps {
 const Home = ({ searchQuery }: HomeProps) => {
   const navigate = useNavigate();
   const { projects } = useContext(ProjectContext);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   const filteredProjects = projects.filter(project =>
     project.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -48,77 +49,54 @@ const Home = ({ searchQuery }: HomeProps) => {
                 navigate(`/project/${project.id}`);
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', pr: 2 }}>
-                  <Tooltip title="グラフを見る">
-                    <IconButton 
-                      color="primary"
-                      size="large"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/project/${project.id}`);
-                      }}
-                    >
-                      <BarChartIcon sx={{ fontSize: 50 }} />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <CardContent sx={{ flexGrow: 1, py: '8px !important', pb: '8px !important' }}>
-                  <Box sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center',
-                    position: 'relative'
-                  }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', width: '250px' }}>
-                      <Typography 
-                        variant="h6" 
-                        sx={{ 
-                          fontFamily: '"M PLUS Rounded 1c", "Segoe UI", sans-serif',
-                          mr: 2
-                        }}
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                p: { xs: 0.5, sm: 1 }, // モバイルではパディングを小さく
+                flexDirection: { xs: 'column', sm: 'row' } // モバイルでは縦並び
+              }}>
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '100%',
+                  justifyContent: { xs: 'space-between', sm: 'flex-start' }
+                }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Tooltip title="グラフを見る">
+                      <IconButton 
+                        color="primary"
+                        size={isSmallScreen ? 'medium' : 'large'}
                       >
-                        {project.name}
-                      </Typography>
-                      <Tooltip title="プロジェクト設定">
-                        <IconButton
-                          size="small"
-                          color="inherit"
-                          sx={{ color: 'rgba(0, 0, 0, 0.4)' }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/project/${project.id}/settings`);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
+                        <BarChartIcon sx={{ 
+                          fontSize: { xs: 35, sm: 50 }
+                        }} />
+                      </IconButton>
+                    </Tooltip>
                     <Typography 
-                      color="text.secondary" 
+                      variant="h6" 
                       sx={{ 
-                        position: 'absolute',
-                        left: '60%',
-                        transform: 'translateX(-50%)',
-                        width: 'auto'
+                        fontFamily: '"M PLUS Rounded 1c", "Segoe UI", sans-serif',
+                        fontSize: { xs: '1rem', sm: '1.25rem' } // モバイルではフォントを小さく
                       }}
                     >
-                      {project.lastUpdatedAt || project.createdAt}
+                      {project.name}
                     </Typography>
                   </Box>
-                </CardContent>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Tooltip title="データを追加">
-                    <IconButton
-                      size="large"
-                      color="primary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/project/${project.id}/update`);
-                      }}
-                    >
-                      <AddCircleIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Tooltip title="プロジェクト設定">
+                      <IconButton
+                        size="small"
+                        color="inherit"
+                        sx={{ color: 'rgba(0, 0, 0, 0.4)' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/project/${project.id}/settings`);
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
                 </Box>
               </Box>
             </Card>

@@ -47,7 +47,11 @@ const GraphDisplay = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Box sx={{ height: 400 }}>
+      <Box sx={{ 
+        height: { xs: 300, sm: 400 },
+        width: '100%',
+        overflow: 'hidden'
+      }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={project.records}>
             <CartesianGrid strokeDasharray="3 3" />
