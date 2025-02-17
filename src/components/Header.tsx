@@ -25,15 +25,16 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
       position="static"
       sx={{ 
         background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-        boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)'
+        boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+        padding: { xs: '10px 0', sm: '10px 20px' } // モバイルとPCでのパディングを調整
       }}
     >
       <Toolbar 
         sx={{ 
           display: 'flex', 
           alignItems: 'center',
-          minHeight: 80, // 固定の高さに戻す
-          py: 1
+          justifyContent: 'space-between', // 左右の要素を均等に配置
+          minHeight: 80,
         }}
       >
         <Box 
@@ -43,7 +44,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             gap: 1,
             cursor: 'pointer',
             ml: 2,
-            width: { xs: 'auto', sm: '200px' } // モバイルでは自動幅
+            width: { xs: 'auto', sm: '200px' }
           }}
           onClick={() => navigate('/')}
         >
@@ -52,13 +53,13 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             sx={{ 
               fontFamily: '"M PLUS Rounded 1c", "Segoe UI", sans-serif',
               fontWeight: 700,
-              fontSize: '2rem', // 固定サイズに戻す
+              fontSize: { xs: '1.5rem', sm: '2rem' }, // フォントサイズをレスポンシブに
               letterSpacing: '0.1em'
             }} 
           >
             Graphy
           </Typography>
-          <TrendingUpIcon sx={{ fontSize: '2.5rem' }} /> {/* 固定サイズに戻す */}
+          <TrendingUpIcon sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }} />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
           {isHome && (
@@ -68,7 +69,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
               sx={{
-                width: '300px', // 固定幅に戻す
+                width: { xs: '200px', sm: '300px' }, // 幅をレスポンシブに
                 backgroundColor: 'white',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {
