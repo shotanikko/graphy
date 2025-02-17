@@ -13,7 +13,7 @@ const ProjectEdit = () => {
 
   // 既存のプロジェクト情報を取得
   useEffect(() => {
-    const project = projects.find(p => p.id === Number(id));
+    const project = projects.find(p => p.id === id);
     if (project) {
       setName(project.name);
       setUnit(project.unit);
@@ -24,7 +24,7 @@ const ProjectEdit = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (id) {
-      updateProject(Number(id), { name, unit, graphType });
+      updateProject(id, { name, unit, graphType });
       navigate('/');
     }
   };

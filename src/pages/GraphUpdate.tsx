@@ -21,7 +21,7 @@ const GraphUpdate = () => {
         date: date.format('YYYY-MM-DD'),
         value: Number(value)
       };
-      addRecord(Number(id), record);
+      addRecord(id, record);
       navigate(`/project/${id}`);
     }
   };

@@ -2,7 +2,6 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Box, Button, TextField, InputAdornment, IconButton, Tooltip } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SearchIcon from '@mui/icons-material/Search';
-import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // 検索用のPropsの型を定義
@@ -21,9 +20,6 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
     location.pathname.match(/^\/project\/\d+$/) ||
     location.pathname === '/project-setup';
 
-  // ホームボタンを表示する条件を追加
-  const showHomeButton = !isHome;
-
   return (
     <AppBar 
       position="static"
@@ -36,7 +32,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
         sx={{ 
           display: 'flex', 
           alignItems: 'center',
-          minHeight: { xs: 60, sm: 80 }, // モバイルでは高さを小さく
+          minHeight: 80, // 固定の高さに戻す
           py: 1
         }}
       >
@@ -47,7 +43,7 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             gap: 1,
             cursor: 'pointer',
             ml: 2,
-            width: { xs: '150px', sm: '200px' } // モバイルでは幅を小さく
+            width: { xs: 'auto', sm: '200px' } // モバイルでは自動幅
           }}
           onClick={() => navigate('/')}
         >
@@ -56,28 +52,23 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             sx={{ 
               fontFamily: '"M PLUS Rounded 1c", "Segoe UI", sans-serif',
               fontWeight: 700,
-              fontSize: { xs: '1.5rem', sm: '2rem' }, // モバイルではフォントサイズを小さく
+              fontSize: '2rem', // 固定サイズに戻す
               letterSpacing: '0.1em'
             }} 
           >
             Graphy
           </Typography>
-          <TrendingUpIcon sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }} />
+          <TrendingUpIcon sx={{ fontSize: '2.5rem' }} /> {/* 固定サイズに戻す */}
         </Box>
-        {isHome && (
-          <Box sx={{ 
-            flex: 1, 
-            display: 'flex', 
-            justifyContent: 'center',
-            px: { xs: 1, sm: 2 } // モバイルではパディングを小さく
-          }}>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          {isHome && (
             <TextField
               size="small"
               placeholder="プロジェクトを検索"
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
               sx={{
-                width: { xs: '200px', sm: '300px' }, // モバイルでは幅を小さく
+                width: '300px', // 固定幅に戻す
                 backgroundColor: 'white',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {
@@ -101,15 +92,9 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
                 ),
               }}
             />
-          </Box>
-        )}
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          alignItems: 'center',
-          width: '200px',
-          mr: 2
-        }}>
+          )}
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '200px', mr: 2 }}>
           {!shouldHideButton && (
             <Button 
               variant="contained"
@@ -125,17 +110,6 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             >
               プロジェクト作成
             </Button>
-          )}
-          {showHomeButton && (
-            <Tooltip title="ホームに戻る">
-              <IconButton
-                color="inherit"
-                onClick={() => navigate('/')}
-                sx={{ color: 'white' }}
-              >
-                <HomeIcon sx={{ fontSize: '2rem' }} />
-              </IconButton>
-            </Tooltip>
           )}
         </Box>
       </Toolbar>

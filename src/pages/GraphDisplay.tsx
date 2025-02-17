@@ -9,11 +9,14 @@ const GraphDisplay = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { projects } = useContext(ProjectContext);
-  const project = projects.find(p => p.id === Number(id));
+  const project = projects.find(p => p.id === id);
 
   if (!project) {
     return <Typography>プロジェクトが見つかりません</Typography>;
   }
+
+  // recordsを日付順にソート
+  const sortedRecords = [...project.records].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
     <Box>
@@ -53,7 +56,7 @@ const GraphDisplay = () => {
         overflow: 'hidden'
       }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={project.records}>
+          <LineChart data={sortedRecords}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />

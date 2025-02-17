@@ -8,7 +8,7 @@ export interface RecordEntry {
 }
 
 export interface Project {
-  id: number;
+  id: string;
   name: string;
   graphType: GraphType;
   unit: string;
@@ -20,8 +20,9 @@ export interface Project {
 interface ProjectContextType {
   projects: Project[];
   addProject: (project: Omit<Project, "id" | "records" | "createdAt">) => void;
-  addRecord: (projectId: number, record: RecordEntry) => void;
-  updateProject: (projectId: number, project: Omit<Project, "id" | "records" | "createdAt">) => void;
+  addRecord: (projectId: string, record: RecordEntry) => void;
+  updateProject: (projectId: string, project: Omit<Project, "id" | "records" | "createdAt">) => void;
+  deleteProject: (projectId: string) => void;
 }
 
 export const ProjectContext = createContext<ProjectContextType>({
@@ -29,6 +30,7 @@ export const ProjectContext = createContext<ProjectContextType>({
   addProject: () => {},
   addRecord: () => {},
   updateProject: () => {},
+  deleteProject: () => {},
 });
 
 export const ProjectContextProvider = ({ children }: { children: ReactNode }) => {
@@ -36,7 +38,7 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode }) =>
 
   const addProject = (project: Omit<Project, "id" | "records" | "createdAt">) => {
     const newProject: Project = {
-      id: Date.now(),
+      id: Date.now().toString(),
       name: project.name,
       graphType: project.graphType,
       unit: project.unit,
@@ -46,7 +48,7 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode }) =>
     setProjects(prev => [...prev, newProject]);
   };
 
-  const addRecord = (projectId: number, record: RecordEntry) => {
+  const addRecord = (projectId: string, record: RecordEntry) => {
     setProjects(prev =>
       prev.map(proj =>
         proj.id === projectId 
@@ -60,18 +62,22 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode }) =>
     );
   };
 
-  const updateProject = (projectId: number, updatedProject: Omit<Project, "id" | "records" | "createdAt">) => {
+  const updateProject = (projectId: string, updatedProject: Omit<Project, "id" | "records" | "createdAt">) => {
     setProjects(prev =>
       prev.map(proj =>
-        proj.id === projectId
-          ? { ...proj, ...updatedProject }
+        proj.id === projectId 
+          ? { ...proj, ...updatedProject, lastUpdatedAt: new Date().toLocaleDateString('ja-JP') }
           : proj
       )
     );
   };
 
+  const deleteProject = (projectId: string) => {
+    setProjects(prev => prev.filter(proj => proj.id !== projectId));
+  };
+
   return (
-    <ProjectContext.Provider value={{ projects, addProject, addRecord, updateProject }}>
+    <ProjectContext.Provider value={{ projects, addProject, addRecord, updateProject, deleteProject }}>
       {children}
     </ProjectContext.Provider>
   );
