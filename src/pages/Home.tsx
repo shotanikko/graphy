@@ -121,16 +121,6 @@ const Home = ({ searchQuery }: HomeProps) => {
                     gap: 1,
                     ml: 'auto'
                   }}>
-                    <Tooltip title="プロジェクトを削除">
-                      <IconButton
-                        size="small"
-                        color="inherit"
-                        sx={{ color: 'rgba(0, 0, 0, 0.4)' }}
-                        onClick={(e) => handleDeleteClick(e, project.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="データを追加">
                       <IconButton
                         size="small"
@@ -141,6 +131,16 @@ const Home = ({ searchQuery }: HomeProps) => {
                         }}
                       >
                         <AddCircleIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="プロジェクトを削除">
+                      <IconButton
+                        size="small"
+                        color="inherit"
+                        sx={{ color: 'rgba(0, 0, 0, 0.4)' }}
+                        onClick={(e) => handleDeleteClick(e, project.id)}
+                      >
+                        <DeleteIcon />
                       </IconButton>
                     </Tooltip>
                   </Box>

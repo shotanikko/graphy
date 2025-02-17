@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Typography, IconButton, Tooltip } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ProjectContext } from '../contexts/ProjectContext';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const GraphDisplay = () => {
@@ -56,13 +56,40 @@ const GraphDisplay = () => {
         overflow: 'hidden'
       }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={sortedRecords}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />
-            <ChartTooltip />
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
-          </LineChart>
+          {project.graphType === 'stackedLine' ? (
+            <LineChart data={sortedRecords}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />
+              <ChartTooltip />
+              <Line type="monotone" dataKey="value" stroke="#2196F3" strokeWidth={2} />
+            </LineChart>
+          ) : project.graphType === 'bar' ? (
+            <BarChart data={sortedRecords}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />
+              <ChartTooltip />
+              <Bar dataKey="value" fill="#2196F3" />
+            </BarChart>
+          ) : project.graphType === 'stackedBar' ? (
+            <BarChart data={sortedRecords}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />
+              <ChartTooltip />
+              <Bar dataKey="value" fill="#2196F3" stackId="a" />
+              <Bar dataKey="value" fill="#82ca9d" stackId="a" />
+            </BarChart>
+          ) : (
+            <LineChart data={sortedRecords}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis label={{ value: project.unit, angle: -90, position: 'insideLeft' }} />
+              <ChartTooltip />
+              <Line type="monotone" dataKey="value" stroke="#2196F3" strokeWidth={2} />
+            </LineChart>
+          )}
         </ResponsiveContainer>
       </Box>
     </Box>
