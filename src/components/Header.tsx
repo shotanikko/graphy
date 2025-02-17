@@ -1,16 +1,15 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Box, Button, TextField, InputAdornment, IconButton, Tooltip } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // 検索用のPropsの型を定義
 interface HeaderProps {
-  searchQuery?: string;
-  onSearchChange?: (query: string) => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
 }
 
-const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
+const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -43,8 +42,6 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
             alignItems: 'center',
             gap: 1,
             cursor: 'pointer',
-            ml: 2,
-            width: { xs: 'auto', sm: '200px' }
           }}
           onClick={() => navigate('/')}
         >
@@ -61,40 +58,6 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
           </Typography>
           <TrendingUpIcon sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }} />
         </Box>
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          {isHome && (
-            <TextField
-              size="small"
-              placeholder="プロジェクトを検索"
-              value={searchQuery}
-              onChange={(e) => onSearchChange?.(e.target.value)}
-              sx={{
-                width: { xs: '200px', sm: '300px' }, // 幅をレスポンシブに
-                backgroundColor: 'white',
-                borderRadius: 1,
-                '& .MuiOutlinedInput-root': {
-                  height: 40,
-                  '& fieldset': {
-                    borderColor: 'white',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'white',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'white',
-                  },
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '200px', mr: 2 }}>
           {!shouldHideButton && (
             <Button 
@@ -109,7 +72,12 @@ const Header = ({ searchQuery = '', onSearchChange }: HeaderProps) => {
                 }
               }}
             >
-              プロジェクト作成
+              <Typography variant="button" sx={{ display: { xs: 'none', sm: 'block' }, fontSize: { xs: '0.8rem', sm: '1rem' } }}>
+                プロジェクト作成
+              </Typography>
+              <Typography variant="button" sx={{ display: { xs: 'block', sm: 'none' }, fontSize: '0.8rem' }}>
+                作成
+              </Typography>
             </Button>
           )}
         </Box>
