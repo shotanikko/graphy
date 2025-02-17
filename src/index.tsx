@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+// タイトルを設定
+document.title = "Graphy"; // ここでタイトルを設定
+
 root.render(
   <React.StrictMode>
     <App />
